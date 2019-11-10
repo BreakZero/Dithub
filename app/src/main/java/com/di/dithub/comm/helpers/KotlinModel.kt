@@ -15,7 +15,7 @@ import kotlin.reflect.KProperty
 abstract class KotlinModel(
     @LayoutRes private val layoutRes: Int
 ): EpoxyModel<View>() {
-    private var view: View? = null
+    protected var view: View? = null
 
     abstract fun bind()
 

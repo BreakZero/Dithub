@@ -3,6 +3,7 @@ package com.di.dithub.feature.main
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.di.dithub.R
 import com.di.dithub.base.BaseFragment
@@ -22,7 +23,9 @@ class MainFragment : BaseFragment() {
     private val launcherViewModel by sharedViewModel(LauncherViewModel::class)
     private val repoViewModel by viewModel(RepoViewModel::class)
 
-    private val controller: RepoController = RepoController()
+    private val controller: RepoController = RepoController {
+        Toast.makeText(requireContext(), it.fullName, Toast.LENGTH_SHORT).show()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

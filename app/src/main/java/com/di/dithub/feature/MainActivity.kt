@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
+import com.bumptech.glide.Glide
 import com.di.dithub.R
 import com.di.dithub.comm.Constant
 import com.di.dithub.feature.login.SignInStatus
@@ -40,6 +41,10 @@ class MainActivity : AppCompatActivity() {
                         .text = it.nickname
                     navMain.getHeaderView(0).findViewById<AppCompatTextView>(R.id.tvReposNum)
                         .text = "${it.repoNum} Repositories"
+                    Glide.with(this@MainActivity)
+                        .load(it.avatarUrl)
+                        .placeholder(R.mipmap.ic_launcher)
+                        .into(navMain.getHeaderView(0).findViewById<AppCompatImageView>(R.id.ivAvatar))
                 } ?: kotlin.run {
                     // maybe sign out to do.
                 }
