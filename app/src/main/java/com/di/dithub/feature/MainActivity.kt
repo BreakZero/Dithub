@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                     navMain.getHeaderView(0).findViewById<AppCompatTextView>(R.id.tvReposNum)
                         .text = "${it.repoNum} Repositories"
                 } ?: kotlin.run {
-                    Toast.makeText(this@MainActivity, "Please sign in", Toast.LENGTH_SHORT).show()
+                    // maybe sign out to do.
                 }
             })
             signInStatus.observe(this@MainActivity, Observer {

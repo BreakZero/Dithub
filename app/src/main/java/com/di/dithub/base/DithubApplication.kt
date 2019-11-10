@@ -41,7 +41,7 @@ val loginModule: Module = module {
     }
 
     viewModel {
-        RepoViewModel(get())
+        RepoViewModel(get(), get())
     }
 }
 
