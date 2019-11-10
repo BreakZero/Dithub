@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(navMain, navController)
         navMain.setNavigationItemSelectedListener {
             Toast.makeText(this, it.title, Toast.LENGTH_SHORT).show()
-            it.isChecked = true
+            if (it.itemId != R.id.menu_setting) it.isChecked = true
             drawerLayout.closeDrawers()
             return@setNavigationItemSelectedListener true
         }
