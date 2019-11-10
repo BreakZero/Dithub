@@ -7,5 +7,6 @@ class Constant {
     object AccountConst {
         const val SP_ACCOUNT = "sp_account"
         const val KEY_TOKEN = "key_token"
+        const val KEY_ACCOUNT = "key_account"
     }
 }

@@ -1,12 +1,16 @@
 package com.di.dithub.base
 
 import android.app.Application
+import androidx.room.Room
 import com.di.dithub.client.AuthRetrofit
 import com.di.dithub.client.GitRetrofit
 import com.di.dithub.client.apis.GitApi
+import com.di.dithub.feature.LauncherViewModel
 import com.di.dithub.feature.login.LoginViewModel
-import com.di.dithub.feature.main.MainViewModel
 import com.di.dithub.feature.main.RepoViewModel
+import com.di.dithub.model.db.DithubDatabase
+import com.di.dithub.repo.UserRepository
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
@@ -21,12 +25,19 @@ val loginModule: Module = module {
         GitRetrofit().retrofit.create(GitApi::class.java)
     }
 
-    viewModel {
-        LoginViewModel(get())
+    factory {
+        UserRepository(
+            androidContext(),
+            get()
+        )
     }
 
     viewModel {
-        MainViewModel()
+        LauncherViewModel(get())
+    }
+
+    viewModel {
+        LoginViewModel(get())
     }
 
     viewModel {
@@ -34,7 +45,7 @@ val loginModule: Module = module {
     }
 }
 
-class DithubApplication: Application() {
+class DithubApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         startKoin {

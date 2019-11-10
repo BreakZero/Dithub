@@ -6,4 +6,6 @@ object GithubConfig {
     val SCOPES = listOf<String>()
     const val NOTE = "Dithub"
     const val AUTHOR_NAME = ""
+
+    const val DATA_BASE_NAME = "dit_db"
 }

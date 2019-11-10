@@ -10,7 +10,7 @@ import com.di.dithub.R
 import com.di.dithub.base.BaseFragment
 import com.di.dithub.extensions.showSnackbar
 import com.di.dithub.extensions.trimText
-import com.di.dithub.feature.main.MainViewModel
+import com.di.dithub.feature.LauncherViewModel
 import kotlinx.android.synthetic.main.fragment_login.*
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -19,7 +19,7 @@ class LoginFragment : BaseFragment() {
     override fun layout(): Int = R.layout.fragment_login
 
     private val viewModel by viewModel(LoginViewModel::class)
-    private val mainViewModel by sharedViewModel(MainViewModel::class)
+    private val launcherViewModel by sharedViewModel(LauncherViewModel::class)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -28,7 +28,7 @@ class LoginFragment : BaseFragment() {
             signInStatus.observe(this@LoginFragment, Observer {
                 when (it) {
                     SignInStatus.SUCCESS -> {
-                        mainViewModel.signInStatus.update(it)
+                        launcherViewModel.signInStatus.update(it)
                         findNavController().popBackStack()
                     }
                     SignInStatus.FAILURE -> {
@@ -38,6 +38,10 @@ class LoginFragment : BaseFragment() {
                         // ignore
                     }
                 }
+            })
+
+            viewModel.userInfo.observe(this@LoginFragment, Observer {
+                launcherViewModel.userInfo.update(it)
             })
         }
 

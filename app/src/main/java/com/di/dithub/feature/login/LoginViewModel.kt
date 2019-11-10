@@ -1,48 +1,38 @@
 package com.di.dithub.feature.login
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.di.dithub.base.BaseLiveData
 import com.di.dithub.base.BaseViewModel
-import com.di.dithub.client.AuthRetrofit
-import com.di.dithub.client.apis.AuthApis
-import com.di.dithub.comm.GithubConfig
-import com.di.dithub.model.request.CreateAuthorization
+import com.di.dithub.model.response.UserInfo
+import com.di.dithub.repo.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class LoginViewModel(private val authRetrofit: AuthRetrofit) : BaseViewModel() {
+class LoginViewModel(
+    private val userRepo: UserRepository
+) : BaseViewModel() {
     private val _signInStatus = BaseLiveData(SignInStatus.DEFAULT)
     val signInStatus: LiveData<SignInStatus>
         get() = _signInStatus
 
-    fun signIn(username: String, password: String) {
-        val createAuthorization = CreateAuthorization(
-            clientId = GithubConfig.CLIENT_ID,
-            clientSecret = GithubConfig.CLIENT_SECRET,
-            note = GithubConfig.NOTE
-        )
+    private val _userInfo = BaseLiveData<UserInfo?>(null)
+    val userInfo: LiveData<UserInfo?>
+        get() = _userInfo
 
-        authRetrofit.setUserInfo(username, password)
-        val authApis = authRetrofit.retrofit.create(AuthApis::class.java)
+    fun signIn(username: String, password: String) {
+
+        userRepo.setUserInfo(username, password)
 
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d("=====", " *** ${this.coroutineContext}")
-            request(call = {
-                val authResp = authApis.auth(createAuthorization)
-                this.launch(Dispatchers.Main) {
-                    this.launch(Dispatchers.IO) {
-                        authApis.getUserInfo(authResp.token)
-                        _signInStatus.update(SignInStatus.SUCCESS)
-                    }
-                }
-            }, onError = {
-                this.launch(Dispatchers.Main) {
+            userRepo.authToken(
+                onSuccess = {
+                    _signInStatus.update(SignInStatus.SUCCESS)
+                },
+                onError = {
                     _signInStatus.update(SignInStatus.FAILURE)
-                    Log.e("=====", "${Thread.currentThread().name}, ${it.message}")
                 }
-            })
+            )
         }
     }
 }

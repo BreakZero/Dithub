@@ -14,7 +14,7 @@ class GitRetrofit {
 
     private fun buildRetrofit(): Retrofit {
         builder.addInterceptor(HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
+            level = HttpLoggingInterceptor.Level.BASIC
         })
         return Retrofit.Builder()
             .client(builder.build())

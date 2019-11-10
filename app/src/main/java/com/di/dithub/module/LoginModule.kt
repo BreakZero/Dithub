@@ -12,8 +12,5 @@ class LoginModule: KoinComponent {
         single {
             AuthRetrofit()
         }
-        viewModel {
-            LoginViewModel(get())
-        }
     }
 }
