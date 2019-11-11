@@ -83,12 +83,12 @@ class MainFragment : BaseFragment() {
 
         repoViewModel.apply {
             repoResult.observe(this@MainFragment, Observer {
-                if (it.isNotEmpty()) {
-                    if (shimmerLayout.isShimmerStarted) {
-                        shimmerLayout.hideShimmer()
-                    }
+                if (shimmerLayout.isShimmerStarted) shimmerLayout.hideShimmer()
+                if (!it.isNullOrEmpty()) {
                     switchContent(TYPE_CONTENT)
                     controller.setData(it)
+                } else {
+                    switchContent(-1)
                 }
             })
         }

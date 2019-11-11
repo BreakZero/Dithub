@@ -30,15 +30,17 @@ class LoginFragment : BaseFragment() {
         viewModel.apply {
             signInResult.observe(this@LoginFragment, Observer {
                 if (loadingDialog?.isShowing == true) loadingDialog?.dismiss()
-                when (it.code) {
-                    0 -> {
-                        findNavController().popBackStack()
-                    }
-                    1 -> {
-                        rootView.showSnackbar("Sign In Failure")
-                    }
-                    else -> {
-                        // ignore
+                it?.run {
+                    when (this.code) {
+                        0 -> {
+                            findNavController().popBackStack()
+                        }
+                        1 -> {
+                            rootView.showSnackbar("Sign In Failure")
+                        }
+                        else -> {
+                            // ignore
+                        }
                     }
                 }
             })

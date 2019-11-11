@@ -1,15 +1,11 @@
 package com.di.dithub.base
 
 import android.os.Looper
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 
-open class BaseLiveData<T>(initValue: T) : LiveData<T>() {
+open class BaseLiveData<T: Any?> : MutableLiveData<T?>() {
 
-    init {
-        super.setValue(initValue)
-    }
-
-    open fun update(value: T) {
+    open fun update(value: T?) {
         if (Looper.myLooper() == Looper.getMainLooper()) {
             super.setValue(value)
         } else {

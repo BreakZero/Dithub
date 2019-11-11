@@ -1,6 +1,5 @@
 package com.di.dithub.feature.login
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.di.dithub.base.BaseLiveData
 import com.di.dithub.base.BaseViewModel
@@ -12,8 +11,8 @@ class LoginViewModel(
     private val userRepo: UserRepository
 ) : BaseViewModel() {
 
-    private val _signInResult: BaseLiveData<SignInResult> = BaseLiveData(SignInResult.DEFAULT)
-    val signInResult: LiveData<SignInResult>
+    private val _signInResult: BaseLiveData<SignInResult> = BaseLiveData()
+    val signInResult: BaseLiveData<SignInResult>
         get() = _signInResult
 
     fun signIn(username: String, password: String) {
@@ -38,7 +37,6 @@ data class SignInResult(
     val error: String? = null
 ) {
     companion object {
-        val DEFAULT = SignInResult()
         val SUCCESS = SignInResult(0)
     }
 }

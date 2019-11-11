@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
 import com.di.dithub.R
@@ -23,6 +24,7 @@ class RepoDetailFragment : BaseFragment() {
         val url = arguments?.getString("URL")
         webView.apply {
             settings.javaScriptEnabled = true
+            webViewClient = object : WebViewClient() {}
             webChromeClient = object : WebChromeClient() {
                 override fun onProgressChanged(view: WebView?, newProgress: Int) {
                     if (newProgress == 100) {
@@ -44,5 +46,10 @@ class RepoDetailFragment : BaseFragment() {
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(callback)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        webView.destroy()
     }
 }
