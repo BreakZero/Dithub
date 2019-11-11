@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -18,6 +19,7 @@ import com.bumptech.glide.Glide
 import com.di.dithub.R
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
@@ -64,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         navMain.setNavigationItemSelectedListener {
             if (it.itemId != R.id.menu_settings) it.isChecked = true
 
-            when(it.itemId) {
+            when (it.itemId) {
                 R.id.menu_repos -> {
                     launcherViewModel.selectModule(HomeModule.REPOSITORIES)
                 }
@@ -87,6 +89,12 @@ class MainActivity : AppCompatActivity() {
                     navController.navigate(R.id.action_to_sign_in)
                 }
             }
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            drawerLayout.setDrawerLockMode(
+                if (destination.id == R.id.mainPage) DrawerLayout.LOCK_MODE_UNLOCKED
+                else DrawerLayout.LOCK_MODE_LOCKED_CLOSED
+            )
+        }
     }
 
     override fun onBackPressed() {
