@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Repo"/>
+    <style name="Repo.Link">
+        <item name="android:textSize">@dimen/text_size_xxnormal</item>
+        <item name="android:textColor">@color/md_blue_800</item>
+    </style>
+    <style name="Repo.Description">
+        <item name="android:textSize">@dimen/text_size_normal</item>
+        <item name="android:textColor">@color/md_grey_700</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+    <style name="Repo.Profile">
+        <item name="android:textSize">@dimen/text_size_normal</item>
+        <item name="android:textColor">@color/md_grey_600</item>
+        <item name="android:layout_marginTop">@dimen/spacing_8</item>
+    </style>
+</resources>

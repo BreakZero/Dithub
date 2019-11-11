@@ -1,6 +1,7 @@
 package com.di.dithub.model.response
 
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 data class RepoInfo(
     val id: String,
@@ -10,5 +11,11 @@ data class RepoInfo(
     @SerializedName("private")
     val isPrivate: Boolean,
     val description: String,
-    val url: String
+    @SerializedName("svn_url")
+    val svnUrl: String,
+    val language: String,
+    @SerializedName("stargazers_count")
+    val starCount: Int,
+    @SerializedName("updated_at")
+    val updateTime: Date
 )

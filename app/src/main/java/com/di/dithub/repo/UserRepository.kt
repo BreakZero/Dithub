@@ -11,6 +11,7 @@ import com.di.dithub.comm.GithubConfig
 import com.di.dithub.model.db.DithubDatabase
 import com.di.dithub.model.request.CreateAuthorization
 import com.di.dithub.model.response.UserInfo
+import java.lang.Exception
 
 class UserRepository(
     private val context: Context,
@@ -28,7 +29,7 @@ class UserRepository(
         apis = authRetrofit.retrofit.create(AuthApis::class.java)
     }
 
-    suspend fun authToken(onSuccess: () -> Unit, onError: () -> Unit) {
+    suspend fun authToken(onSuccess: () -> Unit, onError: (error: Exception) -> Unit) {
         val createAuthorization = CreateAuthorization(
             clientId = GithubConfig.CLIENT_ID,
             clientSecret = GithubConfig.CLIENT_SECRET,
@@ -48,7 +49,7 @@ class UserRepository(
                 }
             }
             onSuccess.invoke()
-        }, onError = { onError.invoke() })
+        }, onError = { onError.invoke(it) })
     }
 
     suspend fun currUser(): UserInfo? {

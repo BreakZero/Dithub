@@ -4,16 +4,16 @@
         android:id="@+id/group_id"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/menu_start"
-            android:title="Start" />
-        <item
             android:id="@+id/menu_repos"
-            android:title="Repository" />
-    </group>
-    <group
-        android:id="@+id/group_2">
+            android:checked="true"
+            android:title="Repositories" />
         <item
-            android:id="@+id/menu_setting"
+            android:id="@+id/menu_stars"
+            android:title="Stars" />
+    </group>
+    <group android:id="@+id/group_2">
+        <item
+            android:id="@+id/menu_settings"
             android:title="Settings" />
     </group>
 </menu>

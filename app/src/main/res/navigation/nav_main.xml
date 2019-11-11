@@ -13,6 +13,10 @@
         <action
             android:id="@+id/action_to_sign_in"
             app:destination="@id/loginPage" />
+
+        <action
+            android:id="@+id/action_to_detail"
+            app:destination="@id/repoDetailPage" />
     </fragment>
 
     <fragment
@@ -20,4 +24,10 @@
         android:name="com.di.dithub.feature.login.LoginFragment"
         android:label="Login"
         tools:layout="@layout/fragment_login" />
+
+    <fragment
+        android:id="@+id/repoDetailPage"
+        android:name="com.di.dithub.feature.repo.RepoDetailFragment"
+        android:label="Detail"
+        tools:layout="@layout/fragment_repo_detail" />
 </navigation>

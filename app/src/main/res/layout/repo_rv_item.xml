@@ -2,18 +2,19 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:foreground="?attr/selectableItemBackground"
-    android:clickable="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
-    android:layout_marginEnd="16dp"
-    android:layout_marginTop="8dp"
-    app:cardCornerRadius="4dp"
-    app:contentPaddingBottom="4dp"
-    app:contentPaddingLeft="12dp"
-    app:contentPaddingRight="12dp"
-    app:contentPaddingTop="4dp">
+    android:layout_marginStart="@dimen/spacing_16"
+    android:layout_marginTop="@dimen/spacing_8"
+    android:layout_marginEnd="@dimen/spacing_16"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardCornerRadius="@dimen/spacing_4"
+    app:contentPaddingBottom="@dimen/spacing_4"
+    app:contentPaddingLeft="@dimen/spacing_12"
+    app:contentPaddingRight="@dimen/spacing_12"
+    app:contentPaddingTop="@dimen/spacing_4">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -21,6 +22,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvName"
+            style="@style/Repo.Link"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -30,11 +32,47 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvDescription"
+            style="@style/Repo.Description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvName"
             tools:text="description" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvLanguage"
+            style="@style/Repo.Profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/java_language"
+            android:drawablePadding="@dimen/spacing_4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDescription"
+            tools:text="Java" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvStarCount"
+            style="@style/Repo.Profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_12"
+            android:drawableStart="@drawable/ic_star_black"
+            android:drawablePadding="@dimen/spacing_4"
+            app:layout_constraintStart_toEndOf="@id/tvLanguage"
+            app:layout_constraintTop_toBottomOf="@id/tvDescription"
+            tools:text="88" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvUpdateTime"
+            style="@style/Repo.Profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_12"
+            android:drawablePadding="@dimen/spacing_4"
+            app:layout_constraintStart_toEndOf="@id/tvStarCount"
+            app:layout_constraintTop_toBottomOf="@id/tvDescription"
+            tools:text="Nov 11" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
