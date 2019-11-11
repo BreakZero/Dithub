@@ -1,7 +1,7 @@
 package com.di.dithub.feature
 
+
 import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -16,10 +16,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.bumptech.glide.Glide
 import com.di.dithub.R
-import com.di.dithub.comm.Constant
-import com.di.dithub.feature.login.SignInStatus
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.drawerLayout
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -49,9 +46,6 @@ class MainActivity : AppCompatActivity() {
                     // maybe sign out to do.
                 }
             })
-            signInStatus.observe(this@MainActivity, Observer {
-                if (it == SignInStatus.SUCCESS) fetchCurrUser()
-            })
             fetchCurrUser()
         }
 
@@ -68,22 +62,30 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
         NavigationUI.setupWithNavController(navMain, navController)
         navMain.setNavigationItemSelectedListener {
-            Toast.makeText(this, it.title, Toast.LENGTH_SHORT).show()
-            if (it.itemId != R.id.menu_setting) it.isChecked = true
+            if (it.itemId != R.id.menu_settings) it.isChecked = true
+
+            when(it.itemId) {
+                R.id.menu_repos -> {
+                    launcherViewModel.selectModule(HomeModule.REPOSITORIES)
+                }
+                R.id.menu_stars -> {
+                    launcherViewModel.selectModule(HomeModule.STARTS)
+                }
+                R.id.menu_settings -> {
+
+                }
+            }
             drawerLayout.closeDrawers()
             return@setNavigationItemSelectedListener true
         }
         navMain.getHeaderView(0).findViewById<AppCompatImageView>(R.id.ivAvatar)
             .setOnClickListener {
                 drawerLayout.closeDrawer(GravityCompat.START)
-                getSharedPreferences(Constant.AccountConst.SP_ACCOUNT, Context.MODE_PRIVATE)
-                    .getString(Constant.AccountConst.KEY_TOKEN, "").run {
-                        if (isNullOrEmpty()) {
-                            navController.navigate(R.id.action_to_sign_in)
-                        } else {
-                            Toast.makeText(this@MainActivity, "TO USER PROFILE", Toast.LENGTH_SHORT).show()
-                        }
-                    }
+                launcherViewModel.userInfo.value?.run {
+                    Toast.makeText(this@MainActivity, "TO USER PROFILE", Toast.LENGTH_SHORT).show()
+                } ?: kotlin.run {
+                    navController.navigate(R.id.action_to_sign_in)
+                }
             }
     }
 

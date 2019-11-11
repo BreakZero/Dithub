@@ -6,6 +6,7 @@ import com.di.dithub.base.BaseLiveData
 import com.di.dithub.base.BaseViewModel
 import com.di.dithub.client.apis.GitApi
 import com.di.dithub.model.response.RepoInfo
+import com.di.dithub.model.response.UserInfo
 import com.di.dithub.repo.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,12 +19,12 @@ class RepoViewModel(
     val repoResult: LiveData<List<RepoInfo>>
         get() = _reposResult
 
-    fun fetchRepos() {
+    fun fetchRepos(module: String) {
         viewModelScope.launch(Dispatchers.IO) {
             request(
                 call = {
                     userRepo.currUser()?.let {
-                        val result = gitApi.repos(it.nickname, 1)
+                        val result = gitApi.repos(it.nickname, module,1)
                         _reposResult.update(result)
                     }
                 },

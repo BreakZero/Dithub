@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.di.dithub.base.BaseLiveData
 import com.di.dithub.base.BaseViewModel
-import com.di.dithub.model.response.UserInfo
 import com.di.dithub.repo.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -12,31 +11,34 @@ import kotlinx.coroutines.launch
 class LoginViewModel(
     private val userRepo: UserRepository
 ) : BaseViewModel() {
-    private val _signInStatus = BaseLiveData(SignInStatus.DEFAULT)
-    val signInStatus: LiveData<SignInStatus>
-        get() = _signInStatus
 
-    private val _userInfo = BaseLiveData<UserInfo?>(null)
-    val userInfo: LiveData<UserInfo?>
-        get() = _userInfo
+    private val _signInResult: BaseLiveData<SignInResult> = BaseLiveData(SignInResult.DEFAULT)
+    val signInResult: LiveData<SignInResult>
+        get() = _signInResult
 
     fun signIn(username: String, password: String) {
-
         userRepo.setUserInfo(username, password)
 
         viewModelScope.launch(Dispatchers.IO) {
             userRepo.authToken(
                 onSuccess = {
-                    _signInStatus.update(SignInStatus.SUCCESS)
+                    _signInResult.update(SignInResult.SUCCESS)
                 },
                 onError = {
-                    _signInStatus.update(SignInStatus.FAILURE)
+                    _signInResult.update(SignInResult(1, it.message))
+                    it.printStackTrace()
                 }
             )
         }
     }
 }
 
-enum class SignInStatus {
-    DEFAULT, SUCCESS, FAILURE
+data class SignInResult(
+    val code: Int = -1,
+    val error: String? = null
+) {
+    companion object {
+        val DEFAULT = SignInResult()
+        val SUCCESS = SignInResult(0)
+    }
 }
