@@ -2,6 +2,8 @@ package com.di.dithub.feature.repo
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebView
@@ -21,6 +23,9 @@ class RepoDetailFragment : BaseFragment() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setHasOptionsMenu(true)
+
         val url = arguments?.getString("URL")
         webView.apply {
             settings.javaScriptEnabled = true
@@ -51,5 +56,10 @@ class RepoDetailFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         webView.destroy()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu.clear()
     }
 }

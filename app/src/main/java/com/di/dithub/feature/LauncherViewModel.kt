@@ -27,10 +27,12 @@ class LauncherViewModel(
     }
 
     fun selectModule(module: HomeModule) {
-        if (_moduleFlag.value != module) _moduleFlag.value = module
+        if (_moduleFlag.value != module) {
+            _moduleFlag.value = module
+        }
     }
 }
 
 enum class HomeModule(var module: String) {
-    REPOSITORIES("repos"), STARTS("starred")
+    REPOSITORIES("repos"), STARS("starred")
 }

@@ -4,6 +4,8 @@ package com.di.dithub.feature
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -19,7 +21,6 @@ import com.bumptech.glide.Glide
 import com.di.dithub.R
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
@@ -63,6 +64,7 @@ class MainActivity : AppCompatActivity() {
         navController = Navigation.findNavController(this, R.id.navHost)
         NavigationUI.setupActionBarWithNavController(this, navController, drawerLayout)
         NavigationUI.setupWithNavController(navMain, navController)
+        navMain.menu.findItem(R.id.menu_repos).isChecked = true
         navMain.setNavigationItemSelectedListener {
             if (it.itemId != R.id.menu_settings) it.isChecked = true
 
@@ -71,7 +73,7 @@ class MainActivity : AppCompatActivity() {
                     launcherViewModel.selectModule(HomeModule.REPOSITORIES)
                 }
                 R.id.menu_stars -> {
-                    launcherViewModel.selectModule(HomeModule.STARTS)
+                    launcherViewModel.selectModule(HomeModule.STARS)
                 }
                 R.id.menu_settings -> {
 
@@ -90,10 +92,17 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            drawerLayout.setDrawerLockMode(
-                if (destination.id == R.id.mainPage) DrawerLayout.LOCK_MODE_UNLOCKED
-                else DrawerLayout.LOCK_MODE_LOCKED_CLOSED
-            )
+            if (destination.id == R.id.mainPage) {
+                launcherViewModel.moduleFlag.value?.let {
+                    navMain.menu.findItem(
+                        when (it) {
+                            HomeModule.REPOSITORIES -> R.id.menu_repos
+                            else -> R.id.menu_stars
+                        }
+                    ).isChecked = true
+                }
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+            } else drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         }
     }
 
@@ -110,5 +119,18 @@ class MainActivity : AppCompatActivity() {
             Navigation.findNavController(this, R.id.navHost),
             drawerLayout
         )
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.search_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_search) {
+            Toast.makeText(this, item.title, Toast.LENGTH_SHORT).show()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
