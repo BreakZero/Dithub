@@ -15,12 +15,13 @@ import com.di.dithub.extensions.trimText
 import com.orhanobut.dialogplus.DialogPlus
 import com.orhanobut.dialogplus.ViewHolder
 import kotlinx.android.synthetic.main.fragment_login.*
+import org.koin.android.scope.currentScope
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class LoginFragment : BaseFragment() {
     override fun layout(): Int = R.layout.fragment_login
 
-    private val viewModel by viewModel(LoginViewModel::class)
+    private val viewModel by currentScope.viewModel<LoginViewModel>(this)
 
     private var loadingDialog: DialogPlus? = null
 
@@ -36,7 +37,7 @@ class LoginFragment : BaseFragment() {
                             findNavController().popBackStack()
                         }
                         1 -> {
-                            rootView.showSnackbar("Sign In Failure")
+                            rootView?.showSnackbar("Sign In Failure")
                         }
                         else -> {
                             // ignore
@@ -62,7 +63,7 @@ class LoginFragment : BaseFragment() {
             val imm =
                 requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             if (imm.isActive) {
-                imm.hideSoftInputFromWindow(rootView.windowToken, 0)
+                imm.hideSoftInputFromWindow(rootView?.windowToken, 0)
             }
             val username = edtUsername.trimText()
             val password = edtPassword.trimText()

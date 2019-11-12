@@ -12,6 +12,7 @@ import com.di.dithub.feature.HomeModule
 import com.di.dithub.feature.LauncherViewModel
 import com.di.dithub.feature.main.controller.RepoController
 import kotlinx.android.synthetic.main.fragment_main.*
+import org.koin.android.scope.currentScope
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -24,7 +25,7 @@ class MainFragment : BaseFragment() {
     }
 
     private val launcherViewModel by sharedViewModel(LauncherViewModel::class)
-    private val repoViewModel by viewModel(RepoViewModel::class)
+    private val repoViewModel by currentScope.viewModel<RepoViewModel>(this)
 
     private val controller: RepoController = RepoController {
         val bundle = Bundle().apply {
@@ -35,10 +36,8 @@ class MainFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         applyViewModel()
         setupView()
-
         launcherViewModel.fetchCurrUser()
     }
 
@@ -67,7 +66,7 @@ class MainFragment : BaseFragment() {
         launcherViewModel.apply {
             userInfo.observe(this@MainFragment, Observer {
                 it?.let {
-                    selectModule(HomeModule.REPOSITORIES)
+                    selectModule(this.moduleFlag.value ?: HomeModule.REPOSITORIES)
                 } ?: kotlin.run {
                     switchContent(-1)
                 }

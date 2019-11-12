@@ -8,6 +8,7 @@ import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import timber.log.Timber
 
 class AuthRetrofit {
     private var username: String? = null
@@ -23,7 +24,11 @@ class AuthRetrofit {
     }
 
     private fun buildRetrofit(): Retrofit {
-        builder.addInterceptor(HttpLoggingInterceptor().apply {
+        builder.addInterceptor(HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
+            override fun log(message: String) {
+                Timber.d(message)
+            }
+        }).apply {
             level = HttpLoggingInterceptor.Level.BODY
         }).addInterceptor(object : Interceptor {
             override fun intercept(chain: Interceptor.Chain): Response {

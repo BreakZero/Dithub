@@ -22,7 +22,7 @@ class RepoViewModel(
             request(
                 call = {
                     userRepo.currUser()?.let {
-                        val result = gitApi.repos(it.nickname, module,1)
+                        val result = gitApi.repos(it.nickname, module, 1)
                         _reposResult.update(result)
                     }
                 },
