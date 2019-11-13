@@ -18,7 +18,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:navigationIcon="@drawable/ic_menu" />
+            app:navigationIcon="@drawable/ic_menu"
+            android:theme="@style/AppToolbar"
+            app:actionViewClass="androidx.appcompat.widget.SearchView"/>
 
         <fragment
             android:id="@+id/navHost"

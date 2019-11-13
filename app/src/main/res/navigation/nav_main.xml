@@ -17,6 +17,10 @@
         <action
             android:id="@+id/action_to_detail"
             app:destination="@id/repoDetailPage" />
+
+        <action
+            android:id="@+id/action_to_search"
+            app:destination="@id/searchPage" />
     </fragment>
 
     <fragment
@@ -30,4 +34,14 @@
         android:name="com.di.dithub.feature.repo.RepoDetailFragment"
         android:label="Detail"
         tools:layout="@layout/fragment_repo_detail" />
+
+    <fragment
+        android:id="@+id/searchPage"
+        android:name="com.di.dithub.feature.search.SearchFragment"
+        android:label="Search"
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_search_to_detail"
+            app:destination="@id/repoDetailPage" />
+    </fragment>
 </navigation>

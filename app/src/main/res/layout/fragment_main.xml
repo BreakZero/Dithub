@@ -12,7 +12,8 @@
         android:paddingBottom="16dp"
         android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:visibility="gone" />
+        tools:visibility="gone"
+        tools:listitem="@layout/repo_rv_item"/>
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmerLayout"

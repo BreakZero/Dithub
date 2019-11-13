@@ -20,6 +20,13 @@ class RepoDetailFragment : BaseFragment() {
 
     override fun layout(): Int = R.layout.fragment_repo_detail
 
+    private val callback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (webView.canGoBack()) webView.goBack()
+            else findNavController().popBackStack()
+        }
+    }
+
     @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,19 +50,13 @@ class RepoDetailFragment : BaseFragment() {
             }
             loadUrl(url)
         }
-
-        val callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (webView.canGoBack()) webView.goBack()
-                else findNavController().popBackStack()
-            }
-        }
         requireActivity().onBackPressedDispatcher.addCallback(callback)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         webView.destroy()
+        callback.remove()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

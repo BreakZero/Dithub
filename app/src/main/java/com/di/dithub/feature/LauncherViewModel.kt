@@ -5,12 +5,12 @@ import com.di.dithub.base.BaseLiveData
 import com.di.dithub.base.BaseViewModel
 import com.di.dithub.base.SingleLiveEvent
 import com.di.dithub.model.response.UserInfo
-import com.di.dithub.repo.UserRepository
+import com.di.dithub.repo.UserDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class LauncherViewModel(
-    private val userRepo: UserRepository
+    private val userRepo: UserDataSource
 ) : BaseViewModel() {
     private val _userInfo = BaseLiveData<UserInfo>()
     val userInfo: BaseLiveData<UserInfo>
@@ -19,6 +19,10 @@ class LauncherViewModel(
     private val _moduleFlag = SingleLiveEvent<HomeModule?>()
     val moduleFlag: SingleLiveEvent<HomeModule?>
         get() = _moduleFlag
+
+    private val _searchKey = SingleLiveEvent<String>()
+    val searchKey: SingleLiveEvent<String>
+        get() = _searchKey
 
     fun fetchCurrUser() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -30,6 +34,10 @@ class LauncherViewModel(
         if (_moduleFlag.value != module) {
             _moduleFlag.value = module
         }
+    }
+
+    fun queryResult(key: String) {
+        if (_searchKey.value != key) _searchKey.value = key
     }
 }
 
