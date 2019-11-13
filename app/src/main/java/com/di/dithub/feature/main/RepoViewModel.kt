@@ -5,12 +5,12 @@ import com.di.dithub.base.BaseLiveData
 import com.di.dithub.base.BaseViewModel
 import com.di.dithub.client.apis.GitApi
 import com.di.dithub.model.response.RepoInfo
-import com.di.dithub.repo.UserRepository
+import com.di.dithub.repo.UserDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class RepoViewModel(
-    private val userRepo: UserRepository,
+    private val userRepo: UserDataSource,
     private val gitApi: GitApi
 ) : BaseViewModel() {
     private val _reposResult = BaseLiveData<List<RepoInfo>>()

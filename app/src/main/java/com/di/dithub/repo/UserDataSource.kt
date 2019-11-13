@@ -3,7 +3,7 @@ package com.di.dithub.repo
 import android.content.Context
 import androidx.core.content.edit
 import androidx.room.Room
-import com.di.dithub.base.BaseRepository
+import com.di.dithub.base.BaseDataSource
 import com.di.dithub.client.AuthRetrofit
 import com.di.dithub.client.apis.AuthApis
 import com.di.dithub.comm.Constant
@@ -13,10 +13,10 @@ import com.di.dithub.model.request.CreateAuthorization
 import com.di.dithub.model.response.UserInfo
 import java.lang.Exception
 
-class UserRepository(
+class UserDataSource(
     private val context: Context,
     private val authRetrofit: AuthRetrofit
-) : BaseRepository() {
+) : BaseDataSource() {
     private var apis: AuthApis? = null
     private val database: DithubDatabase = Room.databaseBuilder(
         context.applicationContext,

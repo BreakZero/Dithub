@@ -18,6 +18,7 @@ interface GitApi {
     suspend fun searchRepos(
         @Query("q") key: String,
         @Query("sort") sort: String? = "updated",
-        @Query("order") order: String? = "desc"
+        @Query("order") order: String? = "desc",
+        @Query("page") currPage: Int
     ): SearchResponse
 }

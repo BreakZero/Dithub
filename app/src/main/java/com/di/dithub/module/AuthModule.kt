@@ -3,7 +3,7 @@ package com.di.dithub.module
 import com.di.dithub.client.AuthRetrofit
 import com.di.dithub.feature.login.LoginFragment
 import com.di.dithub.feature.login.LoginViewModel
-import com.di.dithub.repo.UserRepository
+import com.di.dithub.repo.UserDataSource
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
@@ -15,7 +15,7 @@ object AuthModule {
             AuthRetrofit()
         }
         factory {
-            UserRepository(
+            UserDataSource(
                 androidContext(),
                 get()
             )

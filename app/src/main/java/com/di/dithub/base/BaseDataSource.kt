@@ -4,7 +4,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-open class BaseRepository {
+open class BaseDataSource {
     suspend fun <T> request(
         call: suspend CoroutineScope.() -> T,
         onError: suspend CoroutineScope.(error: Exception) -> Unit

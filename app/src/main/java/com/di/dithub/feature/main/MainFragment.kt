@@ -27,11 +27,13 @@ class MainFragment : BaseFragment() {
     private val launcherViewModel by sharedViewModel(LauncherViewModel::class)
     private val repoViewModel by currentScope.viewModel<RepoViewModel>(this)
 
-    private val controller: RepoController = RepoController {
-        val bundle = Bundle().apply {
-            putString("URL", it.svnUrl)
+    private val controller: RepoController by lazy {
+        RepoController {
+            val bundle = Bundle().apply {
+                putString("URL", it.svnUrl)
+            }
+            findNavController().navigate(R.id.action_to_detail, bundle)
         }
-        findNavController().navigate(R.id.action_to_detail, bundle)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
