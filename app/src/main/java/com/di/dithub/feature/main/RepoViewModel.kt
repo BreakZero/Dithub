@@ -1,13 +1,10 @@
 package com.di.dithub.feature.main
 
-import androidx.lifecycle.viewModelScope
 import com.di.dithub.base.BaseLiveData
 import com.di.dithub.base.BaseViewModel
 import com.di.dithub.client.apis.GitApi
 import com.di.dithub.model.response.RepoInfo
 import com.di.dithub.repo.UserDataSource
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class RepoViewModel(
     private val userRepo: UserDataSource,
@@ -18,17 +15,11 @@ class RepoViewModel(
         get() = _reposResult
 
     fun fetchRepos(module: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            request(
-                call = {
-                    userRepo.currUser()?.let {
-                        val result = gitApi.repos(it.nickname, module, 1)
-                        _reposResult.update(result)
-                    }
-                },
-                onError = {
-                    repoResult.update(listOf())
-                })
+        request {
+            userRepo.currUser()?.let {
+                val result = gitApi.repos(it.nickname, module, 1)
+                _reposResult.update(result)
+            }
         }
     }
 }
